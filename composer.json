@@ -1,10 +1,10 @@
 {
   "name": "sms-management",
-  "version": "0.1.1",
+  "version": "0.0.1",
   "author": "Parvez M Robin",
   "require": {
     "symfony/yaml": "^3.3.9",
-    "parvezmrobin/db-model": "0.0.*"
+    "parvezmrobin/db-model": "dev-master"
   },
   "autoload": {
     "psr-4": {
