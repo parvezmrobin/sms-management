@@ -4,6 +4,7 @@
   "author": "Parvez M Robin",
   "require": {
     "symfony/yaml": "^3.3.9",
+    "symfony/console": "^3.3.9",
     "parvezmrobin/db-model": "dev-master"
   },
   "autoload": {

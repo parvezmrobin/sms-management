@@ -1,0 +1,4 @@
+host: localhost
+database: smsmanagement
+user: root
+password: ""
