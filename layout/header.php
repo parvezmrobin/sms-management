@@ -40,7 +40,7 @@ require "./index.php";
     <div class="row">
         <div class="col-sm-4 col-md-3">
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="navbar">
+            <div class="collapse navbar-collapse" id="navbar" style="border-right: 3px ridge;">
                 <ul class="nav nav-pills nav-stacked">
                     <li> <!--class="active" -->
                         <a href="#">Send SMS</span></a>
