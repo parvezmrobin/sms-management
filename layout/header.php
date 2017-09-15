@@ -15,8 +15,9 @@ require __DIR__ . "/../index.php";
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <title><?= \App\Config::get('app', 'name') ?></title>
     <link rel="stylesheet" href="/css/bootstrap.css">
-    <script src="/js/jquery-3.2.1.js"></script>
-    <script src="/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/css/site.css">
+    <script src="/js/jquery-3.2.1.js" type="text/javascript"></script>
+    <script src="/js/bootstrap.js" type="text/javascript"></script>
 </head>
 <body>
 <div class="container">
@@ -43,7 +44,7 @@ require __DIR__ . "/../index.php";
             <div class="collapse navbar-collapse" id="navbar" style="border-right: 3px ridge;">
                 <ul class="nav nav-pills nav-stacked">
                     <li> <!--class="active" -->
-                        <a href="#">Send SMS</span></a>
+                        <a href="/views/SendSms.php">Send SMS</span></a>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"
