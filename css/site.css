@@ -1,0 +1,6 @@
+.control-sm {
+    width:280px;
+}
+input[type="file"] {
+    display: inline;
+}
