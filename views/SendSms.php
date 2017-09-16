@@ -188,9 +188,11 @@ include_once __DIR__ . "/../layout/header.php";
             let msg1 = msg;
 
             for (let key in row) {
-                let value = row[key];
-                let regexp = new RegExp('{{' + key + '}}', 'g');
-                msg1 = msg1.replace(regexp, value);
+                if (row.hasOwnProperty(key)) {
+                    let value = row[key];
+                    let regexp = new RegExp('{{' + key + '}}', 'g');
+                    msg1 = msg1.replace(regexp, value);
+                }
             }
 
             output[row[mobColumn]] = msg1;
@@ -207,8 +209,10 @@ include_once __DIR__ . "/../layout/header.php";
             '<thead><tr><th>Number</th><th>SMS</th><tr><tbody>';
 
         for (let i in output) {
-            let msg = output[i];
-            outString += ("<tr><td>" + i + "</td><td>" + msg + '</td></tr>');
+            if (output.hasOwnProperty(i)) {
+                let msg = output[i];
+                outString += ("<tr><td>" + i + "</td><td>" + msg + '</td></tr>');
+            }
         }
         outString += "</tbody></table>";
 

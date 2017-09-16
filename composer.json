@@ -3,9 +3,13 @@
   "version": "0.0.1",
   "author": "Parvez M Robin",
   "require": {
+    "php": "^5.3.3 || ^7.0",
     "symfony/yaml": "^3.3.9",
     "symfony/console": "^3.3.9",
     "parvezmrobin/db-model": "dev-master"
+  },
+  "require-dev": {
+    "fzaninotto/faker": "^1.7.1"
   },
   "autoload": {
     "psr-4": {
