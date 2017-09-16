@@ -52,7 +52,7 @@ require __DIR__ . "/../index.php";
                             Report <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Campaign Report</a></li>
+                            <li><a href="/views/report/campaign.php">Campaign Report</a></li>
                             <li><a href="#">SMS Report</a></li>
                             <li><a href="#">Transactional Report</a></li>
                         </ul>
