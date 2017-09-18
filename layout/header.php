@@ -6,7 +6,20 @@
  * Time: 4:50 AM
  */
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\PhpBridgeSessionStorage;
+
 require __DIR__ . "/../index.php";
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Get Symfony to interface with this existing session
+$session = new Session(new PhpBridgeSessionStorage());
+
+// symfony will now interface with the existing PHP session
+$session->start();
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -35,6 +48,20 @@ require __DIR__ . "/../index.php";
                     </button>
                     <a class="navbar-brand" href="#"><?= \App\Config::get('app', 'name') ?></a>
                 </div>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <?php if ($session->has('username')) : ?>
+                        <li>
+                            <a href="/views/auth/login.php?logout=logout">
+                                <span class="glyphicon glyphicon-log-out"></span>
+                                Logout
+                            </a>
+                        </li>
+                    <?php else : ?>
+                        <?php (new RedirectResponse("/views/auth/login.php")) ?>
+                    <?php endif; ?>
+                </ul>
+
             </div><!-- /.container-fluid -->
         </nav>
     </div><!--Top Nav Row-->

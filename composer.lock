@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/parvezmrobin/DB-Model.git",
-                "reference": "5085d5ff03dacaf198ee9799b8febb1dc5fd711b"
+                "reference": "e20d7cfedbcaed9b273e09900765e5e1622b9555"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/parvezmrobin/DB-Model/zipball/5085d5ff03dacaf198ee9799b8febb1dc5fd711b",
-                "reference": "5085d5ff03dacaf198ee9799b8febb1dc5fd711b",
+                "url": "https://api.github.com/repos/parvezmrobin/DB-Model/zipball/e20d7cfedbcaed9b273e09900765e5e1622b9555",
+                "reference": "e20d7cfedbcaed9b273e09900765e5e1622b9555",
                 "shasum": ""
             },
             "require": {
@@ -49,7 +49,7 @@
                 "mysql",
                 "sql"
             ],
-            "time": "2017-09-16T14:01:36+00:00"
+            "time": "2017-09-18 17:52:14"
         },
         {
             "name": "psr/log",

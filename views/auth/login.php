@@ -26,37 +26,61 @@ $session = new Session(new PhpBridgeSessionStorage());
 // symfony will now interface with the existing PHP session
 $session->start();
 
-// Logout
-if ($request->request->has('logout')) {
-    $session->remove('username');
+/**
+ * @param Symfony\Component\HttpFoundation\Session\Session $session
+ * @return bool
+ */
+function tryLogin($session)
+{
+    // Create a request object from $_Request[]
+    $request = Request::createFromGlobals();
+    tryLogout($session, $request);
+    tryRedirect($session);
+
+
+    $username = $request->get('username');
+    $password = $request->get('password');
+
+    if (!$username || !$password) {
+        return true;
+    }
+
+    \DbModel\Model::$database = App\Config::get('db', 'database');
+
+    $count = \DbModel\Model::count('users', "email = '$username' AND password = '$password'");
+
+    // If matches log in
+    if ($count) {
+        $session->set('username', $username);
+        (new RedirectResponse("/views/SendSms.php"))->send();
+    }
+    return false;
 }
 
+/**
+ * @param Symfony\Component\HttpFoundation\Session\Session $session
+ */
+function tryRedirect($session)
+{
 // Redirect if logged in
-if ($session->has('username')) {
-    (new RedirectResponse("/views/SendSms.php"))->send();
+    if ($session->has('username')) {
+        (new RedirectResponse("/views/SendSms.php"))->send();
+    }
 }
 
-// Create a request object from $_Request[]
-$request = Request::createFromGlobals();
-
-$username = $request->get('username');
-$password = $request->get('password');
-
-if (!$username || !$password) {
-    return;
+/**
+ * @param Symfony\Component\HttpFoundation\Session\Session $session
+ * @param $request
+ */
+function tryLogout($session, $request)
+{
+// Logout
+    if ($request->query->has('logout')) {
+        $session->remove('username');
+    }
 }
 
-\DbModel\Model::$database = App\Config::get('db', 'database');
-
-$count = \DbModel\Model::count('users', "email = '$username' AND password = '$password'");
-
-// If matches log in
-if ($count) {
-    $session->set('username', $username);
-    (new RedirectResponse("/views/SendSms.php"))->send();
-} else {
-    $error = true;
-}
+$error = tryLogin($session);
 
 ?>
 
@@ -90,18 +114,19 @@ if ($count) {
         </nav>
     </div><!--Top Nav Row-->
     <form action="login.php" method="post" class="row col-sm-4 col-sm-offset-4">
-        <?php if ($error) : ?>
-            <div class="alert alert-warning alert-dismissable">
+        <?php if (!$error) : ?>
+            <div class="alert alert-danger alert-dismissible">
+                <span class="glyphicon glyphicon-alert"></span>
                 This credentials do not match our record
             </div>
         <?php endif; ?>
         <div class="form-group">
             <label for="username" class="control-label">Email</label>
-            <input type="text" name="username" id="username" class="form-control control-sm">
+            <input type="text" name="username" id="username" class="form-control">
         </div>
         <div class="form-group">
             <label for="password" class="control-label">Password</label>
-            <input type="text" name="password" id="password" class="form-control control-sm">
+            <input type="text" name="password" id="password" class="form-control">
         </div>
         <div class="form-group">
             <input type="submit" value="Login" class="btn btn-primary">
