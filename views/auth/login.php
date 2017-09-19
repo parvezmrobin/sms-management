@@ -10,78 +10,12 @@ require __DIR__ . "/../../index.php";
 ?>
 
 <?php
+// Start a session
+$session = \App\Utility::startSession();
 
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\Storage\PhpBridgeSessionStorage;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
-
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-
-// Get Symfony to interface with this existing session
-$session = new Session(new PhpBridgeSessionStorage());
-
-// symfony will now interface with the existing PHP session
-$session->start();
-
-/**
- * @param Symfony\Component\HttpFoundation\Session\Session $session
- * @return bool
- */
-function tryLogin($session)
-{
-    // Create a request object from $_Request[]
-    $request = Request::createFromGlobals();
-    tryLogout($session, $request);
-    tryRedirect($session);
-
-
-    $username = $request->get('username');
-    $password = $request->get('password');
-
-    if (!$username || !$password) {
-        return true;
-    }
-
-    \DbModel\Model::$database = App\Config::get('db', 'database');
-
-    $count = \DbModel\Model::count('users', "email = '$username' AND password = '$password'");
-
-    // If matches log in
-    if ($count) {
-        $session->set('username', $username);
-        (new RedirectResponse("/views/SendSms.php"))->send();
-    }
-    return false;
-}
-
-/**
- * @param Symfony\Component\HttpFoundation\Session\Session $session
- */
-function tryRedirect($session)
-{
-// Redirect if logged in
-    if ($session->has('username')) {
-        (new RedirectResponse("/views/SendSms.php"))->send();
-    }
-}
-
-/**
- * @param Symfony\Component\HttpFoundation\Session\Session $session
- * @param $request
- */
-function tryLogout($session, $request)
-{
-// Logout
-    if ($request->query->has('logout')) {
-        $session->remove('username');
-    }
-}
-
-$error = tryLogin($session);
-
+// Create a request object from $_Request[]
+$request = Symfony\Component\HttpFoundation\Request::createFromGlobals();
+$error = App\Auth::login($session, $request);
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
