@@ -26,7 +26,7 @@ $session->start();
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <title><?= \App\Config::get('app', 'name') ?></title>
+    <title><?= $appName = \App\Config::from('app')->get('name') ?></title>
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/site.css">
     <script src="/js/jquery-3.2.1.js" type="text/javascript"></script>
@@ -46,7 +46,7 @@ $session->start();
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#"><?= \App\Config::get('app', 'name') ?></a>
+                    <a class="navbar-brand" href="#"><?= $appName ?></a>
                 </div>
 
                 <ul class="nav navbar-nav navbar-right">
