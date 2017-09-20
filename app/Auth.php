@@ -33,8 +33,7 @@ class Auth
             return true;
         }
 
-        Model::$database = Config::get('db', 'database');
-        $userField = Config::get('auth', 'username');
+        $userField = Config::from('auth')->get('username');
 
         $count = Model::count('users', "{$userField} = '$username' AND password = '$password'");
 
@@ -44,19 +43,6 @@ class Auth
             (new RedirectResponse("/views/SendSms.php"))->send();
         }
         return false;
-    }
-
-
-    /**
-     * Redirects to home if logged in
-     * @param \Symfony\Component\HttpFoundation\Session\Session $session
-     */
-    public static function redirect($session)
-    {
-        // Redirect if logged in
-        if ($session->has('username')) {
-            (new RedirectResponse("/views/SendSms.php"))->send();
-        }
     }
 
     /**
@@ -73,14 +59,47 @@ class Auth
     }
 
     /**
+     * Redirects to home if logged in
+     * @param \Symfony\Component\HttpFoundation\Session\Session $session
+     */
+    public static function redirect($session)
+    {
+        // Redirect if logged in
+        if ($session->has('username')) {
+            (new RedirectResponse("/views/SendSms.php"))->send();
+        }
+    }
+
+    /**
+     * Registers a new user
      * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return array
      */
     public static function register($request)
     {
-        (new Model())->set('name', $request->get('name'))
-            ->set('email', $request->get('email'))
-            ->set('password', $request->get('password'))
+        $pass = $request->get('password');
+        $confirmPass = $request->get('conf-password');
+        $email = $request->get('email');
+        $errors = [];
+
+        if (strcmp($pass, $confirmPass)) {
+            $errors[] = "password-mismatch";
+        }
+
+        if (Model::count('users', "email = '$email'")) {
+            $errors[] = "email exists";
+        }
+
+        if (count($errors)) {
+            return $errors;
+        }
+
+        (new Model())
+            ->set('name', $request->get('name'))
+            ->set('email', $email)
+            ->set('password', $pass)
             ->save('users');
+
 
         (new RedirectResponse("/views/auth/login.php"))->send();
     }
