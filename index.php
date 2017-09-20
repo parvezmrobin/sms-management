@@ -7,3 +7,15 @@
  */
 
 require __DIR__ . "/vendor/autoload.php";
+
+if (\App\Config::from('app')->get('dev')) {
+    \Symfony\Component\Debug\Debug::enable();
+} else {
+    echo !\App\Config::from('app')->get('dev');
+}
+
+$dbConfig = new \App\Config('db');
+\DbModel\Model::$database = $dbConfig->get('database');
+\DbModel\Model::$host = $dbConfig->get('host');
+\DbModel\Model::$username = $dbConfig->get('user');
+\DbModel\Model::$password = $dbConfig->get('password');
