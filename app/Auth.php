@@ -35,11 +35,13 @@ class Auth
 
         $userField = Config::from('auth')->get('username');
 
-        $count = Model::count('users', "{$userField} = '$username' AND password = '$password'");
+        $user = Model::where('users', "{$userField} = '$username' AND password = '$password'");
+        $count = $user->count();
 
         // If matches log in
         if ($count) {
             $session->set('username', $username);
+            $session->set('user-id', $user->getIterator()->current()->id);
             (new RedirectResponse("/views/SendSms.php"))->send();
         }
         return false;
