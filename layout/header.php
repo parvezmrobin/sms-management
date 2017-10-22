@@ -78,8 +78,16 @@ $session->start();
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbar" style="border-right: 3px ridge;">
                 <ul class="nav nav-pills nav-stacked">
-                    <li> <!--class="active" -->
-                        <a href="/views/SendSms.php">Send SMS</span></a>
+                    <li class="dropdown"> <!--class="active" -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                           role="button" aria-haspopup="true" aria-expanded="false">
+                            Send SMS <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/views/send/number-sms.php">To Numbers</a></li>
+                            <li><a href="#">To Groups</a></li>
+                            <li><a href="#">From Excel</a></li>
+                        </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"

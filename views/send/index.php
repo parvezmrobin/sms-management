@@ -5,7 +5,7 @@
  * Date: 9/15/2017
  * Time: 8:46 PM
  */
-include_once __DIR__ . "/../layout/header.php";
+include_once __DIR__ . "/../../layout/header.php";
 ?>
 <h1>Send SMS</h1>
 <br>
@@ -198,7 +198,7 @@ include_once __DIR__ . "/../layout/header.php";
             output[row[mobColumn]] = msg1;
         }
         console.log(output);
-        
+
         return output;
     }
 
@@ -292,4 +292,4 @@ include_once __DIR__ . "/../layout/header.php";
 </script>
 
 
-<?php include_once __DIR__ . "/../layout/footer.php"; ?>
+<?php include_once __DIR__ . "/../../layout/footer.php"; ?>

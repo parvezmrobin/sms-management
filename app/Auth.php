@@ -42,7 +42,7 @@ class Auth
         if ($count) {
             $session->set('username', $username);
             $session->set('user-id', $user->getIterator()->current()->id);
-            (new RedirectResponse("/views/SendSms.php"))->send();
+            (new RedirectResponse("/views/index.php"))->send();
         }
         return false;
     }
@@ -68,7 +68,7 @@ class Auth
     {
         // Redirect if logged in
         if ($session->has('username')) {
-            (new RedirectResponse("/views/SendSms.php"))->send();
+            (new RedirectResponse("/views/send/number-sms.php"))->send();
         }
     }
 
