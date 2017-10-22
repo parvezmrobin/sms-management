@@ -52,6 +52,14 @@ $session->start();
                 <ul class="nav navbar-nav navbar-right">
                     <?php if ($session->has('username')) : ?>
                         <li>
+                            <a href="#">
+                                Hello, <?= \DbModel\Model::find(
+                                    'users',
+                                    $session->get('username'),
+                                    'email')->name ?>
+                            </a>
+                        </li>
+                        <li>
                             <a href="/views/auth/login.php?logout=logout">
                                 <span class="glyphicon glyphicon-log-out"></span>
                                 Logout
@@ -90,9 +98,9 @@ $session->start();
                             Contact <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Manage Group</a></li>
-                            <li><a href="#">Add Contact</a></li>
-                            <li><a href="#">Manage Contact</a></li>
+                            <li><a href="/views/group/index.php">Manage Group</a></li>
+                            <li><a href="/views/contact/contact.php">Add Contact</a></li>
+                            <li><a href="/views/contact/index.php">Manage Contact</a></li>
                             <li><a href="#">Black List</a></li>
                         </ul>
                     </li>
