@@ -6,7 +6,7 @@
     "php": "^5.3.3 || ^7.0",
     "symfony/yaml": "^3.3.9",
     "symfony/console": "^3.3.9",
-    "parvezmrobin/db-model": "dev-master",
+    "parvezmrobin/db-model": ">=0.5.1",
     "symfony/http-foundation": "^3.3.9"
   },
   "require-dev": {
