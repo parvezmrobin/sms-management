@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b6dca5e570207d6b6d98a9c0b9bfa46f",
+    "content-hash": "aaf9a730f048121bb3d140780e9238a8",
     "packages": [
         {
             "name": "parvezmrobin/db-model",
-            "version": "0.5.7",
+            "version": "0.5.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/parvezmrobin/DB-Model.git",
-                "reference": "9b9ff9b5019de8c711305eeec85f2754241b04df"
+                "reference": "2babd7f5a855b3675e1e51821e35152a7e9aec44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/parvezmrobin/DB-Model/zipball/9b9ff9b5019de8c711305eeec85f2754241b04df",
-                "reference": "9b9ff9b5019de8c711305eeec85f2754241b04df",
+                "url": "https://api.github.com/repos/parvezmrobin/DB-Model/zipball/2babd7f5a855b3675e1e51821e35152a7e9aec44",
+                "reference": "2babd7f5a855b3675e1e51821e35152a7e9aec44",
                 "shasum": ""
             },
             "require": {
@@ -49,7 +49,7 @@
                 "mysql",
                 "sql"
             ],
-            "time": "2017-10-17T20:44:28+00:00"
+            "time": "2017-10-23T04:15:08+00:00"
         },
         {
             "name": "psr/log",
@@ -440,6 +440,74 @@
                 "fixtures"
             ],
             "time": "2017-08-15T16:48:10+00:00"
+        },
+        {
+            "name": "symfony/var-dumper",
+            "version": "v3.3.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/var-dumper.git",
+                "reference": "03e3693a36701f1c581dd24a6d6eea2eba2113f6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/03e3693a36701f1c581dd24a6d6eea2eba2113f6",
+                "reference": "03e3693a36701f1c581dd24a6d6eea2eba2113f6",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9|>=7.0.8",
+                "symfony/polyfill-mbstring": "~1.0"
+            },
+            "conflict": {
+                "phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0"
+            },
+            "require-dev": {
+                "ext-iconv": "*",
+                "twig/twig": "~1.34|~2.4"
+            },
+            "suggest": {
+                "ext-iconv": "To convert non-UTF-8 strings to UTF-8 (or symfony/polyfill-iconv in case ext-iconv cannot be used).",
+                "ext-symfony_debug": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "Resources/functions/dump.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Component\\VarDumper\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony mechanism for exploring and dumping PHP variables",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "debug",
+                "dump"
+            ],
+            "time": "2017-10-02T06:42:24+00:00"
         }
     ],
     "aliases": [],
