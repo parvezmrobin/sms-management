@@ -9,6 +9,10 @@ include_once __DIR__ . "/../../layout/header.php";
     <h1>Send SMS to Numbers</h1>
     <br>
 
+    <div id="sms-output">
+
+    </div>
+
     <div id="number-sms">
         <br>
         <div class="form-group">
@@ -49,7 +53,7 @@ include_once __DIR__ . "/../../layout/header.php";
             const mask = $('#mask1').val();
 
             for (let i = 0; i < numbers.length; i++) {
-                if(numbers[i].startsWith('01'))
+                if (numbers[i].startsWith('01'))
                     numbers[i] = '88' + numbers[i];
             }
 
@@ -60,8 +64,24 @@ include_once __DIR__ . "/../../layout/header.php";
             });
 
             axios.post(baseUrl, smsBody)
-                .then(resp=>{
-                    console.log(resp);
+                .then(resp => {
+                    let total = resp.data.messages.length;
+                    let sent = 0;
+
+                    for (let i = 0; i < total; i++) {
+                        const message = resp.data.messages[i];
+                        const grp = message.status.groupId;
+                        if (grp == 0 || grp == 1 || grp == 3) {
+                            sent++;
+                        }
+                    }
+
+                    const output = sent + ' SMSs sent out of ' + total;
+                    $('#sms-output').html(
+                        '<div class="alert alert-info alert-dismissable">' +
+                        '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + output +
+                        '</div>'
+                    );
                     $('#btnSend').prop('disabled', false).text('Send');
                 })
         }
