@@ -86,7 +86,7 @@ $session->start();
                         <ul class="dropdown-menu">
                             <li><a href="/views/send/number-sms.php">To Numbers</a></li>
                             <li><a href="/views/send/group-sms.php">To Groups</a></li>
-                            <li><a href="#">From Excel</a></li>
+                            <li><a href="/views/send/excel-sms.php">From Excel</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
