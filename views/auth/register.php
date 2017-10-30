@@ -54,6 +54,7 @@ if ($request->request->has('email')) {
             <div class="alert alert-danger alert-dismissible">
                 <?php foreach ($errors as $error): ?>
                     <p>
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                         <span class="glyphicon glyphicon-alert"></span>
                         <?= $error ?>
                     </p>
@@ -80,6 +81,7 @@ if ($request->request->has('email')) {
         </div>
         <div class="form-group">
             <input type="submit" value="Register" class="btn btn-success">
+            <a href="login.php" class="pull-right" style="padding: 7px 0">Already registered?</a>
         </div>
     </form>
 </div>

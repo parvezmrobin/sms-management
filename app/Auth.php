@@ -42,7 +42,7 @@ class Auth
         if ($count) {
             $session->set('username', $username);
             $session->set('user-id', $user->getIterator()->current()->id);
-            (new RedirectResponse("/views/index.php"))->send();
+            (new RedirectResponse("/views/send/number-sms.php"))->send();
         }
         return false;
     }

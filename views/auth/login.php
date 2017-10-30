@@ -44,12 +44,20 @@ $error = App\Auth::login($session, $request);
                     </button>
                     <a class="navbar-brand" href="#"><?= $appName ?></a>
                 </div>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="register.php"></a>
+                    </li>
+                </ul>
+
             </div><!-- /.container-fluid -->
         </nav>
     </div><!--Top Nav Row-->
     <form action="login.php" method="post" class="row col-sm-4 col-sm-offset-4">
         <?php if (!$error) : ?>
             <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 <span class="glyphicon glyphicon-alert"></span>
                 This credentials do not match our record
             </div>
@@ -60,10 +68,11 @@ $error = App\Auth::login($session, $request);
         </div>
         <div class="form-group">
             <label for="password" class="control-label">Password</label>
-            <input type="text" name="password" id="password" class="form-control">
+            <input type="password" name="password" id="password" class="form-control">
         </div>
         <div class="form-group">
             <input type="submit" value="Login" class="btn btn-primary">
+            <a href="register.php" class="pull-right" style="padding: 5px 0">Register new account</a>
         </div>
     </form>
 </div>
