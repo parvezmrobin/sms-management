@@ -4,8 +4,8 @@
  * Date: 10/23/2017
  * Time: 9:17 AM
  */
-include_once __DIR__ . "/../../layout/header.php"; ?>
-
+include_once __DIR__ . "/../../layout/header.php";
+?>
     <script src="/js/axios.min.js"></script>
 
 <?php
@@ -29,8 +29,10 @@ if ($request->request->has('send')) {
 
         $('#btnSend').prop('disabled', true).text('Sending...');
         const text = '<?= $request->get('text') ?>';
+        //noinspection JSAnnotator
         const numbers = <?= json_encode($contacts->only('contact')) ?>;
         const mask = '<?= $request->get('mask') ?>';
+        const name = '<?= $request->get('name') ?>';
 
         for (let i = 0; i < numbers.length; i++) {
             if (numbers[i].startsWith('01'))
@@ -42,22 +44,47 @@ if ($request->request->has('send')) {
             to: numbers,
             text: text
         });
-        
+
         axios.post(baseUrl, smsBody)
             .then(resp => {
+                /**
+                 * Display confirmation
+                 */
                 let total = resp.data.messages.length;
                 let sent = 0;
+                let smsCount = 0;
 
                 for (let i = 0; i < total; i++) {
                     const message = resp.data.messages[i];
                     const grp = message.status.groupId;
-                    if(grp == 0 || grp == 1 || grp == 3){
+                    if (grp == 0 || grp == 1 || grp == 3) {
                         sent++;
+                        smsCount += message.smsCount;
                     }
                 }
 
-                $('#sms-output').text(sent + ' SMSs sent out of ' + total);
+                /**
+                 * Store sending info
+                 */
+                let report = {
+                    user_id: '<?= \App\Auth::userId($session) ?>',
+                    entry_count: total,
+                    sms_count: smsCount,
+                    body: text,
+                    groups: <?= json_encode($groups->only('id')) ?>
+                };
+                if (name) {
+                    report.name = name;
+                }
 
+                report = JSON.stringify(report);
+                axios.post('ajax/group.php', report)
+                    .then(resp => {
+                        if (!resp.data.ok)
+                            console.log(resp.errors);
+                    });
+
+                $('#sms-output').text(sent + ' SMSs sent out of ' + total);
                 $('#btnSend').prop('disabled', false).text('Send');
             })
     </script>
