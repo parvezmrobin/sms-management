@@ -11,6 +11,7 @@ namespace App;
 
 use DbModel\Model;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class Auth
 {
@@ -104,5 +105,23 @@ class Auth
 
 
         (new RedirectResponse("/views/auth/login.php"))->send();
+    }
+
+    /**
+     * @param Session $session
+     * @return mixed
+     */
+    public static function username($session)
+    {
+        return $session->get('username');
+    }
+
+    /**
+     * @param Session $session
+     * @return mixed
+     */
+    public static function userId($session)
+    {
+        return $session->get('user-id');
     }
 }
