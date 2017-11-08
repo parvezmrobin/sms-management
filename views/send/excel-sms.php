@@ -15,8 +15,7 @@ include_once __DIR__ . "/../../layout/header.php"; ?>
     <br>
     <div class="form-group">
         <label for="file">Choose File</label>
-        <input type="file" name="file" id="file" class="form-control control-sm">
-        <button type="button" class="btn btn-info">Upload</button>
+        <input type="file" name="file" id="file" class="form-control control-sm" accept=".xlsx, .xls">
     </div>
 
     <div class="form-group col-md-6" style="padding-left: 0;">
@@ -40,12 +39,12 @@ include_once __DIR__ . "/../../layout/header.php"; ?>
     </div>
 
     <div class="form-group">
-        <label for="mask2" class="control-label">Mask Option</label>
-        <select name="mask2" id="mask2" class="form-control control-sm"></select>
+        <label for="mask" class="control-label">Mask Option</label>
+        <select name="mask" id="mask" class="form-control control-sm"></select>
     </div>
     <div class="form-group">
-        <label for="name2" class="control-label">Campaign Name</label>
-        <input type="text" name="name2" id="name2" class="form-control control-sm">
+        <label for="name" class="control-label">Campaign Name</label>
+        <input type="text" name="name" id="name" class="form-control control-sm">
     </div>
     <div class="form-group">
         <button type="button" class="btn btn-info" onclick="showOutput()">Preview</button>
@@ -83,30 +82,29 @@ include_once __DIR__ . "/../../layout/header.php"; ?>
      * Excel Part
      */
     const X = XLSX;
-    let result;
+    let jsonSheets, csvSheets;
 
-    function generateMessages() {
+    function generateMessages(selectedSheet) {
         const mobColumn = $("#mob-number").val();
-        const textArea = document.getElementById('text2');
-        const msg = textArea.value;
+        const textArea = document.getElementById('text');
+        const messageFormat = textArea.value;
 
         let output = [];
-        const selectedSheet = document.getElementById('sheet').value;
-        const rows = result[selectedSheet];
+        const rows = jsonSheets[selectedSheet];
 
         for (let i = 0; i < rows.length; i++) {
             let row = rows[i];
-            let msg1 = msg;
+            let message = messageFormat;
 
             for (let key in row) {
                 if (row.hasOwnProperty(key)) {
                     let value = row[key];
                     let regexp = new RegExp('{{' + key + '}}', 'g');
-                    msg1 = msg1.replace(regexp, value);
+                    message = message.replace(regexp, value);
                 }
             }
 
-            output[row[mobColumn]] = msg1;
+            output[row[mobColumn]] = message;
         }
 //        console.log(output);
 
@@ -114,17 +112,18 @@ include_once __DIR__ . "/../../layout/header.php"; ?>
     }
 
     function showOutput() {
-        const output = generateMessages();
+        const selectedSheet = document.getElementById('sheet').value;
+        const messages = generateMessages(selectedSheet);
         const outDiv = document.getElementById('output');
         let outString = '<table class="table">' +
             '<thead><tr><th>Number</th><th>SMS</th><tr><tbody>';
 
         let count = 0;
-        for (let i in output) {
-            if (output.hasOwnProperty(i)) {
+        for (let i in messages) {
+            if (messages.hasOwnProperty(i)) {
                 if(count == 10)
                     break;
-                let msg = output[i];
+                let msg = messages[i];
                 outString += ("<tr><td>" + i + "</td><td>" + msg + '</td></tr>');
                 count++;
             }
@@ -136,22 +135,26 @@ include_once __DIR__ . "/../../layout/header.php"; ?>
         $('#preview-modal').modal('toggle');
     }
 
-    function process_wb(workbook) {
-        let res = {};
+    function processWorkBook(workbook) {
+        let _jsonSheets = {}, _csvSheets = {};
         workbook.SheetNames.forEach(function (sheetName) {
-            const roa = X.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
-            if (roa.length > 0) {
-                res[sheetName] = roa;
+            const rowObjectArray = X.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+            const csvSheet = XLSX.utils.sheet_to_csv(workbook.Sheets[sheetName]);
+            if (rowObjectArray.length > 0) {
+                _jsonSheets[sheetName] = rowObjectArray;
+                _csvSheets[sheetName] = csvSheet;
             }
         });
 
-        result = res;
+        jsonSheets = _jsonSheets;
+        csvSheets = _csvSheets;
+        console.log(_csvSheets);
+        
 //        console.log(res);
-
 
         let sheetsHtml = '';
 
-        for (let sheetName in res) {
+        for (let sheetName in _jsonSheets) {
             sheetsHtml += '<option value="' + sheetName + '">' + sheetName + '</option>';
         }
 
@@ -161,23 +164,21 @@ include_once __DIR__ . "/../../layout/header.php"; ?>
 
     const file = document.getElementById('file');
     function handleFile(e) {
-        const f = e.target.files[0];
+        const file = e.target.files[0];
 
         const reader = new FileReader();
         reader.onload = function (e) {
             if (typeof console !== 'undefined') console.log('onload', new Date());
             const data = e.target.result;
-            let wb;
+            let wb = X.read(data, {type: 'binary'});
 
-            wb = X.read(data, {type: 'binary'});
-
-            process_wb(wb);
+            processWorkBook(wb);
         };
-        reader.readAsBinaryString(f);
+        reader.readAsBinaryString(file);
     }
 
     function sheetChanged() {
-        $("#text2").val("");
+        $("#text").val("");
 
         const sheet = this.value;
         const addColumnSelect = $('#add-col')[0];
@@ -185,7 +186,7 @@ include_once __DIR__ . "/../../layout/header.php"; ?>
             addColumnSelect.innerHTML = "";
             return;
         }
-        const firstElement = result[sheet][0];
+        const firstElement = jsonSheets[sheet][0];
 
         let columns = "";
         for (let i in firstElement) {
@@ -223,38 +224,61 @@ include_once __DIR__ . "/../../layout/header.php"; ?>
 
     function sendSms() {
         $('#btnSend').prop('disabled', true).text('Sending...');
-        const output = generateMessages();
+        const selectedSheet = document.getElementById('sheet').value;
+        const text = csvSheets[selectedSheet];
+        const messagesArray = generateMessages(selectedSheet);
         const mask = $('#mask1').val();
 
-        let messages = [];
+        let messagesToBeSent = [];
 
-        for (let i in output) {
-            if (output.hasOwnProperty(i)) {
-                messages.push({
+        for (let i in messagesArray) {
+            if (messagesArray.hasOwnProperty(i)) {
+                messagesToBeSent.push({
                     from: mask,
                     to: i.startsWith('1')? '880' + i: i,
-                    text: output[i]
+                    text: messagesArray[i]
                 })
             }
         }
 
         const smsBody = JSON.stringify({
-            messages: messages
+            messages: messagesToBeSent
         });
 
         axios.post(baseUrl, smsBody)
             .then(resp => {
+                /*Generate Report*/
                 let total = resp.data.messages.length;
-                let sent = 0;
+                let sent = 0, smsCount = 0;
 
                 for (let i = 0; i < total; i++) {
                     const message = resp.data.messages[i];
                     const grp = message.status.groupId;
                     if (grp == 0 || grp == 1 || grp == 3) {
                         sent++;
+                        smsCount += message.smsCount;
                     }
                 }
 
+                /*Store Report*/
+                let report = {
+                    user_id: '<?= \App\Auth::userId($session) ?>',
+                    entry_count: total,
+                    sms_count: smsCount,
+                    body: text
+                };
+                if (name) {
+                    report.name = name;
+                }
+
+                report = JSON.stringify(report);
+                axios.post('ajax/excel.php', report)
+                    .then(resp => {
+                        if (!resp.data.ok)
+                            console.log(resp.errors);
+                    });
+
+                /*Show Report*/
                 const output = sent + ' SMSs sent out of ' + total;
                 $('#sms-output').html(
                     '<div class="alert alert-info alert-dismissable">' +
