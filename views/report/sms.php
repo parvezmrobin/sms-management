@@ -70,7 +70,7 @@ if ($query->has('search')) {
 }
 
 $campaigns = \DbModel\Model::raw(
-        "SELECT count(*) as entry_count, (sms_count * count(*)) as sms_count, body FROM single_sms INNER JOIN single_sms_contact ON single_sms.id = single_sms_contact.single_sms_id WHERE " . implode(" AND ", $conditions) . " GROUP BY single_sms.id"
+        "SELECT * FROM single_sms WHERE " . implode(" AND ", $conditions)
 );
 ?>
 <br>
