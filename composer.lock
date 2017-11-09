@@ -4,20 +4,84 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "aaf9a730f048121bb3d140780e9238a8",
+    "content-hash": "76a89cc566ceba47ec252534d57d9fd4",
     "packages": [
         {
-            "name": "parvezmrobin/db-model",
-            "version": "0.5.11",
+            "name": "league/csv",
+            "version": "9.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/parvezmrobin/DB-Model.git",
-                "reference": "fdc345fa667628ba1173d512f6e882a36d7339d2"
+                "url": "https://github.com/thephpleague/csv.git",
+                "reference": "bfa3aa8e755377cd6cc2242cfd074e48c7c300ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/parvezmrobin/DB-Model/zipball/fdc345fa667628ba1173d512f6e882a36d7339d2",
-                "reference": "fdc345fa667628ba1173d512f6e882a36d7339d2",
+                "url": "https://api.github.com/repos/thephpleague/csv/zipball/bfa3aa8e755377cd6cc2242cfd074e48c7c300ba",
+                "reference": "bfa3aa8e755377cd6cc2242cfd074e48c7c300ba",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=7.0.10"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "friendsofphp/php-cs-fixer": "^2.0",
+                "phpunit/phpunit": "^6.0"
+            },
+            "suggest": {
+                "ext-iconv": "Needed to ease transcoding CSV using iconv stream filters"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "9.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Csv\\": "src"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ignace Nyamagana Butera",
+                    "email": "nyamsprod@gmail.com",
+                    "homepage": "https://github.com/nyamsprod/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Csv data manipulation made easy in PHP",
+            "homepage": "http://csv.thephpleague.com",
+            "keywords": [
+                "csv",
+                "export",
+                "filter",
+                "import",
+                "read",
+                "write"
+            ],
+            "time": "2017-10-20T08:03:26+00:00"
+        },
+        {
+            "name": "parvezmrobin/db-model",
+            "version": "0.5.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/parvezmrobin/DB-Model.git",
+                "reference": "3b98c6a679bdfd90e65a589e89f24fb483d463b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/parvezmrobin/DB-Model/zipball/3b98c6a679bdfd90e65a589e89f24fb483d463b7",
+                "reference": "3b98c6a679bdfd90e65a589e89f24fb483d463b7",
                 "shasum": ""
             },
             "require": {
@@ -49,7 +113,7 @@
                 "mysql",
                 "sql"
             ],
-            "time": "2017-11-09T11:17:48+00:00"
+            "time": "2017-11-09T12:05:23+00:00"
         },
         {
             "name": "psr/log",
