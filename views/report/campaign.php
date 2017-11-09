@@ -82,7 +82,11 @@ $campaigns = \DbModel\Model::where('campaign', implode(" AND ", $conditions));
             <tbody>
             <?php foreach ($campaigns as $campaign): ?>
                 <tr>
-                    <td><?= $campaign->campaign_name ?></td>
+                    <td>
+                        <a href="<?= ($campaign->campaignable_type == 1) ? "group" : "excel" ?>.php?id=<?= $campaign->id ?>">
+                            <?= $campaign->campaign_name ?>
+                        </a>
+                    </td>
                     <td><?= $campaign->campaignable_type ? "Group SMS" : "Excel SMS" ?></td>
                     <td><?= $campaign->entry_count ?></td>
                     <td><?= $campaign->sms_count ?></td>

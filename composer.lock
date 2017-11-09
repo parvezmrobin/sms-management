@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "parvezmrobin/db-model",
-            "version": "0.5.8",
+            "version": "0.5.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/parvezmrobin/DB-Model.git",
-                "reference": "2babd7f5a855b3675e1e51821e35152a7e9aec44"
+                "reference": "fdc345fa667628ba1173d512f6e882a36d7339d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/parvezmrobin/DB-Model/zipball/2babd7f5a855b3675e1e51821e35152a7e9aec44",
-                "reference": "2babd7f5a855b3675e1e51821e35152a7e9aec44",
+                "url": "https://api.github.com/repos/parvezmrobin/DB-Model/zipball/fdc345fa667628ba1173d512f6e882a36d7339d2",
+                "reference": "fdc345fa667628ba1173d512f6e882a36d7339d2",
                 "shasum": ""
             },
             "require": {
@@ -49,7 +49,7 @@
                 "mysql",
                 "sql"
             ],
-            "time": "2017-10-23T04:15:08+00:00"
+            "time": "2017-11-09T11:17:48+00:00"
         },
         {
             "name": "psr/log",
