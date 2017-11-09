@@ -1,5 +1,5 @@
 .control-sm {
-    width:280px;
+    max-width:280px;
 }
 input[type="file"] {
     display: inline;

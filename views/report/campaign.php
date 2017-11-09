@@ -7,26 +7,96 @@
  */
 
 include_once __DIR__ . "/../../layout/header.php";
+$query = new \Symfony\Component\HttpFoundation\ParameterBag($_GET);
 ?>
-
+    <link rel="stylesheet" href="./../../css/datatables.min.css">
     <h1>Campaign Report</h1>
     <br>
-    <div class="form-group col-md-6" style="padding-left: 0;">
-        <label for="date-from">From</label>
-        <input type="date" name="date-from" id="date-from" class="control-sm form-control">
+    <form class="form-horizontal" action="campaign.php" method="get">
+        <div class="form-group col-md-6">
+            <label for="date-from" class="col-md-2 control-label">From</label>
+            <div class="col-md-10">
+                <input type="date" name="date-from" id="date-from" class="control-sm form-control"
+                       value="<?= $query->get('date-from')?? "" ?>">
+            </div>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="date-to" class="col-md-2 control-label">To</label>
+            <div class="col-md-10">
+                <input type="date" name="date-to" id="date-to" class="control-sm form-control"
+                       value="<?= $query->get('date-to')?? "" ?>">
+            </div>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="search" class="col-md-2 control-label">Search</label>
+            <div class="col-md-10">
+                <input type="text" name="search" id="search" placeholder="Search Keyword"
+                       class="control-sm form-control" value="<?= $query->get('search')?? "" ?>">
+            </div>
+        </div>
+        <div class="clearfix">
+
+        </div>
+        <div class="form-group col-md-6">
+            <div class="col-md-10 col-md-offset-2">
+                <button class="btn btn-info" type="submit">Search</button>
+            </div>
+        </div>
+        <div class="clearfix">
+
+        </div>
+    </form>
+<?php
+$conditions = ['user_id = ' . \App\Auth::userId($session)];
+
+if ($query->has('date-from')) {
+    if (strlen($from = $query->get('date-from')))
+        $conditions[] = "time >= '" . $from . "'";
+}
+
+if ($query->has('date-to')) {
+    if (strlen($to = $query->get('date-to')))
+        $conditions[] = "time <= '" . $to . "'";
+}
+
+if ($query->has('search')) {
+    if (strlen($search = $query->get('search')))
+        $conditions[] = "campaign_name like '%" . $search . "%'";
+}
+
+$campaigns = \DbModel\Model::where('campaign', implode(" AND ", $conditions));
+?>
+    <br>
+    <div class="row">
+        <table class="table" id="campaigns">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Total Entry</th>
+                <th>Total SMS</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($campaigns as $campaign): ?>
+                <tr>
+                    <td><?= $campaign->campaign_name ?></td>
+                    <td><?= $campaign->campaignable_type ? "Group SMS" : "Excel SMS" ?></td>
+                    <td><?= $campaign->entry_count ?></td>
+                    <td><?= $campaign->sms_count ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 
-    <div class="form-group col-md-6">
-        <label for="date-to">To</label>
-        <input type="date" name="date-to" id="date-to" class="control-sm form-control">
-    </div>
-
-    <div class="form-group">
-        <label for="search">Search Keyword</label>
-        <input type="text" name="searhc" id="search" class="control-sm form-control">
-    </div>
-    <div class="form-group">
-        <button class="btn btn-info" type="button">Search</button>
-    </div>
+    <script src="/js/datatables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#campaigns').DataTable();
+        })
+    </script>
 <?php
 include_once __DIR__ . "/../../layout/footer.php"; ?>
