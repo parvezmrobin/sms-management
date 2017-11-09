@@ -110,7 +110,7 @@ $session->start();
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="/views/report/campaign.php">Campaign Report</a></li>
-                            <li><a href="#">SMS Report</a></li>
+                            <li><a href="/views/report/sms.php">SMS Report</a></li>
                             <li><a href="#">Transactional Report</a></li>
                         </ul>
                     </li>
