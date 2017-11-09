@@ -67,7 +67,7 @@ $session->start();
                                     'SELECT (
     (SELECT SUM(recharges.amount) FROM recharges WHERE recharges.user_id = 1) - 
     (SELECT SUM(campaign.sms_count) * '. $smsCost .' FROM campaign WHERE campaign.user_id = 1) - 
-    (SELECT COUNT(*) * ' . $smsCost . ' FROM single_sms INNER JOIN single_sms_contact ON single_sms.id = single_sms_contact.single_sms_id WHERE single_sms.user_id = 1)
+    (SELECT single_sms.sms_count * ' . $smsCost . ' FROM single_sms WHERE single_sms.user_id = 1)
 ) as balance'
                                 )->getIterator()->current()->balance
                                 ?>
