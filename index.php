@@ -19,3 +19,7 @@ $dbConfig = new \App\Config('db');
 \DbModel\Model::$host = $dbConfig->get('host');
 \DbModel\Model::$username = $dbConfig->get('user');
 \DbModel\Model::$password = $dbConfig->get('password');
+
+if (!strcasecmp($_SERVER['REQUEST_URI'], '/')) {
+    (new \Symfony\Component\HttpFoundation\RedirectResponse('/views/send/number-sms.php'))->send();
+}
