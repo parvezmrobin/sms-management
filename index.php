@@ -21,5 +21,5 @@ $dbConfig = new \App\Config('db');
 \DbModel\Model::$password = $dbConfig->get('password');
 
 if (!strcasecmp($_SERVER['REQUEST_URI'], '/')) {
-    (new \Symfony\Component\HttpFoundation\RedirectResponse('/views/send/number-sms.php'))->send();
+    (new \Symfony\Component\HttpFoundation\RedirectResponse('/views/auth/login.php'))->send();
 }
