@@ -32,20 +32,24 @@ include_once __DIR__ . "/../../layout/header.php"; ?>
         <label for="text" class="control-label">Enter SMS</label>
         <textarea name="text" id="text" class="form-control"></textarea>
     </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="add-col" class="control-label">Add Column</label>
+            <select name="add-col" id="add-col" multiple class="form-control control-sm"></select>
+        </div>
 
-    <div class="form-group">
-        <label for="add-col" class="control-label">Add Column</label>
-        <select name="add-col" id="add-col" multiple class="form-control control-sm"></select>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="mask" class="control-label">Mask Option</label>
+                <select name="mask" id="mask" class="form-control control-sm"></select>
+            </div>
+            <div class="form-group">
+                <label for="name" class="control-label">Campaign Name</label>
+                <input type="text" name="name" id="name" class="form-control control-sm">
+            </div>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label for="mask" class="control-label">Mask Option</label>
-        <select name="mask" id="mask" class="form-control control-sm"></select>
-    </div>
-    <div class="form-group">
-        <label for="name" class="control-label">Campaign Name</label>
-        <input type="text" name="name" id="name" class="form-control control-sm">
-    </div>
     <div class="form-group">
         <button type="button" class="btn btn-info" onclick="showOutput()">Preview</button>
         <button type="button" class="btn btn-success" onclick="sendSms()">Send</button>
@@ -82,12 +86,12 @@ include_once __DIR__ . "/../../layout/header.php"; ?>
      * Excel Part
      */
     const X = XLSX;
-    let jsonSheets, csvSheets;
+    let jsonSheets, csvSheets, messageFormat;
 
     function generateMessages(selectedSheet) {
         const mobColumn = $("#mob-number").val();
         const textArea = document.getElementById('text');
-        const messageFormat = textArea.value;
+        messageFormat = textArea.value;
 
         let output = [];
         const rows = jsonSheets[selectedSheet];
@@ -121,7 +125,7 @@ include_once __DIR__ . "/../../layout/header.php"; ?>
         let count = 0;
         for (let i in messages) {
             if (messages.hasOwnProperty(i)) {
-                if(count == 10)
+                if (count == 10)
                     break;
                 let msg = messages[i];
                 outString += ("<tr><td>" + i + "</td><td>" + msg + '</td></tr>');
@@ -149,7 +153,7 @@ include_once __DIR__ . "/../../layout/header.php"; ?>
         jsonSheets = _jsonSheets;
         csvSheets = _csvSheets;
         console.log(_csvSheets);
-        
+
 //        console.log(res);
 
         let sheetsHtml = '';
@@ -201,7 +205,7 @@ include_once __DIR__ . "/../../layout/header.php"; ?>
 
     if (file.addEventListener) file.addEventListener('change', handleFile, false);
 
-    $("#add-col").change(function () {
+    $('#add-col').change(function () {
         const column = $(this).val();
 
         $('#text').first().val(function () {
@@ -235,7 +239,7 @@ include_once __DIR__ . "/../../layout/header.php"; ?>
             if (messagesArray.hasOwnProperty(i)) {
                 messagesToBeSent.push({
                     from: mask,
-                    to: i.startsWith('1')? '880' + i: i,
+                    to: i.startsWith('1') ? '880' + i : i,
                     text: messagesArray[i]
                 })
             }
@@ -265,7 +269,9 @@ include_once __DIR__ . "/../../layout/header.php"; ?>
                     user_id: '<?= \App\Auth::userId($session) ?>',
                     entry_count: total,
                     sms_count: smsCount,
-                    body: text
+                    body: text,
+                    format: messageFormat,
+                    numberCol: $("#mob-number").val()
                 };
                 if (name) {
                     report.name = name;

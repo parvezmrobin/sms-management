@@ -43,6 +43,17 @@ if (isset($request->body)) {
     $errorBag[] = 'No SMS body provided';
 }
 
+if (isset($request->format)) {
+    $format = $request->format;
+} else {
+    $errorBag[] = 'No SMS format provided';
+}
+
+if (isset($request->numberCol)) {
+    $numberCol = $request->numberCol;
+} else {
+    $errorBag[] = 'No number column provided';
+}
 
 if (count($errorBag)) {
     die(json_encode([
@@ -59,11 +70,17 @@ $campaignId = Model::createFromArray([
     'sms_count' => $smsCount
 ])->create('campaign');
 
+Model::createFromArray([
+    'id' => $campaignId,
+    'body' => $format,
+    'number' => $numberCol,
+])->create('excel_sms');
+
 $chunks = str_split($body, 250);
 
 foreach ($chunks as $i => $chunk) {
     Model::createFromArray([
-        'campaign_id' => $campaignId,
+        'id' => $campaignId,
         'serial' => $i + 1,
         'data' => $chunk
     ])->create('excel_sms_data');
