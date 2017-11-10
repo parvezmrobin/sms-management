@@ -55,7 +55,7 @@ foreach ($sheet as $row) {
     <small> : <?= \DbModel\Model::find('campaign', $id)->campaign_name ?></small>
 </h2>
 <hr>
-
+<div class="panel panel-body panel-primary">
 <table class="table" id="">
     <thead>
     <tr>
@@ -72,7 +72,7 @@ foreach ($sheet as $row) {
     <?php endforeach; ?>
     </tbody>
 </table>
-
+</div>
 
 <?php
 include_once __DIR__ . "/../../layout/footer.php"; ?>

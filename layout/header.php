@@ -46,7 +46,7 @@ $session->start();
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#"><?= $appName ?></a>
+                    <a class="navbar-brand" href="/"><?= $appName ?></a>
                 </div>
 
                 <ul class="nav navbar-nav navbar-right">
@@ -111,7 +111,7 @@ $session->start();
                         <ul class="dropdown-menu">
                             <li><a href="/views/report/campaign.php">Campaign Report</a></li>
                             <li><a href="/views/report/sms.php">SMS Report</a></li>
-                            <li><a href="#">Transactional Report</a></li>
+                            <li><a href="/views/report/transaction.php">Transactional Report</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">

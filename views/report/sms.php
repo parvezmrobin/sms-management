@@ -12,7 +12,7 @@ $query = new \Symfony\Component\HttpFoundation\ParameterBag($_GET);
 ?>
 <link rel="stylesheet" href="./../../css/datatables.min.css">
 
-<h1>Campaign Report</h1>
+<h1>SMS Report</h1>
 <br>
 
 <form class="form-horizontal" action="sms.php" method="get">
@@ -74,7 +74,7 @@ $campaigns = \DbModel\Model::raw(
 );
 ?>
 <br>
-<div class="row">
+<div class="panel panel-primary panel-body">
     <table class="table" id="campaigns">
         <thead>
         <tr>

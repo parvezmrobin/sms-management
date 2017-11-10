@@ -19,8 +19,7 @@ $groups = $groups->groupBy('group_sms_id');
 ?>
 
 <h2>Group SMS Report</h2>
-<hr>
-
+<div class="panel panel-body panel-primary">
 <table class="table" id="report">
     <thead>
     <tr>
@@ -47,6 +46,6 @@ $groups = $groups->groupBy('group_sms_id');
     <?php endforeach; ?>
     </tbody>
 </table>
-
+</div>
 <?php
 include_once __DIR__ . "/../../layout/footer.php"; ?>
