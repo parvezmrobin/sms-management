@@ -123,10 +123,10 @@ $session->start();
                             <li><a href="/views/group/index.php">Manage Group</a></li>
                             <li><a href="/views/contact/contact.php">Add Contact</a></li>
                             <li><a href="/views/contact/index.php">Manage Contact</a></li>
-                            <li><a href="#">Black List</a></li>
+                            <li class="disabled"><a href="#">Black List</a></li>
                         </ul>
                     </li>
-                    <li class="dropdown">
+                    <li class="dropdown disabled">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                            role="button" aria-haspopup="true" aria-expanded="false">
                             Account Recharge <span class="caret"></span>
@@ -136,7 +136,7 @@ $session->start();
                             <li><a href="#">How to</a></li>
                         </ul>
                     </li>
-                    <li class="dropdown">
+                    <li class="dropdown disabled">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                            role="button" aria-haspopup="true" aria-expanded="false">
                             API Documentation <span class="caret"></span>
@@ -146,8 +146,8 @@ $session->start();
                             <li><a href="#">API Documentation</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">Account Info</a></li>
-                    <li class="dropdown">
+                    <li class="disabled"><a href="#">Account Info</a></li>
+                    <li class="dropdown disabled">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                            role="button" aria-haspopup="true" aria-expanded="false">
                             User Manual <span class="caret"></span>
