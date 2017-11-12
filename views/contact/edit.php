@@ -21,7 +21,7 @@ if (!isset($_REQUEST['id'])) {
             <div class="form-group">
                 <label for="number" class="control-label col-md-4">Contact Number</label>
                 <div class="col-md-8">
-                    <input type="number" name="number" id="number" class="form-control"
+                    <input type="text" name="number" id="number" class="form-control"
                     value="<?= $contact->contact ?>">
                 </div>
             </div>
