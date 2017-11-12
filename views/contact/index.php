@@ -16,6 +16,12 @@ if ($request->request->has('create-contact')) {
         ->set('contact', $request->get('number'))
         ->store('contacts');
 
+    Model::createFromArray([
+        'name' => $request->get('name'),
+        'user_id' => $session->get('user-id'),
+        'contact_id' => $contactId
+    ])->store('contact_user');
+
     if ($request->request->has('group') && $request->get('group') != 0) {
         Model::createFromArray([
             'contact_id' => $contactId,
@@ -41,17 +47,22 @@ $groups = Model::where('groups', "user_id = {$session->get('user-id')}");
 if ($request->query->has('group')) {
     $group = $request->get('group');
     if (!strcasecmp($group, "0")) {
-        $contacts = Model::all('contacts');
+        $contacts = Model::where('contacts INNER JOIN contact_user ON contacts.id = contact_user.contact_id',
+            "user_id = '" . \App\Auth::userId($session) . "'",
+            "DISTINCT contacts.*");
     } else {
         $contacts = Model::where(
-            "contacts INNER JOIN contact_group ON contacts.id = contact_id",
-            "group_id = '{$group}'",
-            "contacts.*"
+            "contacts INNER JOIN contact_group ON contacts.id = contact_group.contact_id " .
+            "INNER JOIN contact_user ON contacts.id = contact_user.contact_id",
+            "group_id = '{$group}' AND user_id = '" . \App\Auth::userId($session) . "'",
+            "DISTINCT contacts.*"
         );
     }
     $g = $group;
 } else {
-    $contacts = Model::all('contacts');
+    $contacts = Model::where('contacts INNER JOIN contact_user ON contacts.id = contact_user.contact_id',
+        "user_id = '" . \App\Auth::userId($session) . "'",
+        "DISTINCT contacts.*");
     $g = "";
 }
 ?>
@@ -104,7 +115,7 @@ if ($request->query->has('group')) {
                     </td>
                     <td>
                         <button onclick="confirmDelete(<?= $contact->id ?>)" type="button"
-                           class="btn btn-danger">
+                                class="btn btn-danger">
                             <span class="glyphicon glyphicon-minus"></span>
                         </button>
                     </td>
@@ -122,7 +133,7 @@ if ($request->query->has('group')) {
     });
 
     function confirmDelete(id) {
-        if (confirm("Are you sure") == true){
+        if (confirm("Are you sure") == true) {
             open("index.php?delete-id=" + id, '_self')
         }
     }
