@@ -5,12 +5,11 @@ input[type="file"] {
     display: inline;
 }
 
-.panel{
+.panel, .panel > .panel-heading{
     border-color: #888;
 }
 
 .panel > .panel-heading{
     background-color: #333;
-    border-color: #888;
     color: #d9edf7;
 }
